@@ -1,0 +1,7 @@
+{
+  "name": "Copy of DayOff - Nursing Leave System",
+  "description": "Streamlined leave management system for Nursing and GNM students with multi-stage faculty approval workflow.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
