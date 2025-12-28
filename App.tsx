@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from './components/Layout';
 import StudentDashboard from './components/StudentDashboard';
 import AdminDashboard from './components/AdminDashboard';
+import AdminOverview from './components/AdminOverview';
 import LeaveForm from './components/LeaveForm';
 import { User, LeaveApplication, ApprovalStatus, UserRole, CLASSES, CollegeClass } from './types';
 import { GraduationCap, School, ShieldCheck, Key, UserCheck } from 'lucide-react';
@@ -161,7 +162,7 @@ const App: React.FC = () => {
       {currentView === 'dashboard' && (
         user.role === 'STUDENT' 
           ? <StudentDashboard applications={leaves.filter(l => l.applicantId === user.id)} />
-          : <AdminDashboard user={user} applications={leaves} onUpdateStatus={handleUpdateStatus} />
+          : <AdminOverview user={user} applications={leaves} onNavigate={setCurrentView} />
       )}
       {currentView === 'apply' && <LeaveForm user={user} onSubmit={handleApplyLeave} isSubmitting={isSubmitting} />}
       {currentView === 'review' && user.role !== 'STUDENT' && <AdminDashboard user={user} applications={leaves} onUpdateStatus={handleUpdateStatus} />}

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { User } from '../types';
-import { LogOut, LayoutDashboard, FileText, User as UserIcon, ShieldCheck, PenSquare } from 'lucide-react';
+import { LogOut, LayoutDashboard, FileText, User as UserIcon, ShieldCheck, PenSquare, History } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,7 +20,8 @@ const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, onNavigate, c
     return 'Faculty';
   };
 
-  const canReview = user.role === 'PRINCIPAL' || user.role === 'COURSE_COORDINATOR' || user.role === 'CLASS_COORDINATOR';
+  // All faculty roles (CC, CoC, Principal, and Normal Faculty) can access history/review
+  const isFaculty = user.role !== 'STUDENT';
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-[#f0f4f8]">
@@ -57,7 +58,7 @@ const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, onNavigate, c
               </button>
             )}
 
-            {canReview && (
+            {isFaculty && (
               <button
                 onClick={() => onNavigate('review')}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
@@ -65,7 +66,7 @@ const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, onNavigate, c
                 }`}
               >
                 <FileText size={20} />
-                <span>Review Requests</span>
+                <span>{user.role === 'NORMAL_FACULTY' ? 'Application History' : 'Review Requests'}</span>
               </button>
             )}
           </nav>
