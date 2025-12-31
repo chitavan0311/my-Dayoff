@@ -5,8 +5,9 @@ import StudentDashboard from './components/StudentDashboard';
 import AdminDashboard from './components/AdminDashboard';
 import AdminOverview from './components/AdminOverview';
 import LeaveForm from './components/LeaveForm';
+import GameZone from './components/GameZone';
 import { User, LeaveApplication, ApprovalStatus, UserRole, CLASSES, CollegeClass } from './types';
-import { GraduationCap, School, ShieldCheck, Key, UserCheck } from 'lucide-react';
+import { GraduationCap, School, ShieldCheck } from 'lucide-react';
 import { generateProfessionalLetter, generateAdminSummary } from './services/geminiService';
 
 const INITIAL_LEAVES: LeaveApplication[] = [
@@ -39,18 +40,8 @@ const App: React.FC = () => {
   const FACULTY_USERS: Record<string, User> = {
     'PR_ADMIN': { id: 'PR', name: 'Dr. Elizabeth', email: 'principal@dayoff.edu', role: 'PRINCIPAL' },
     'COC_ALL': { id: 'COC', name: 'Dr. Robert', email: 'coc@dayoff.edu', role: 'COURSE_COORDINATOR' },
-    // 8 Class Coordinators
     'CC_1BSC': { id: 'CC1', name: 'Mrs. Anita', role: 'CLASS_COORDINATOR', assignedClass: '1yr BSc Nursing', email: 'cc1@dayoff.edu' },
-    'CC_2BSC': { id: 'CC2', name: 'Mr. David', role: 'CLASS_COORDINATOR', assignedClass: '2yr BSc Nursing', email: 'cc2@dayoff.edu' },
-    'CC_3BSC': { id: 'CC3', name: 'Ms. Sarah', role: 'CLASS_COORDINATOR', assignedClass: '3yr BSc Nursing', email: 'cc3@dayoff.edu' },
-    'CC_4BSC': { id: 'CC4', name: 'Mrs. Jane', role: 'CLASS_COORDINATOR', assignedClass: '4yr BSc Nursing', email: 'cc4@dayoff.edu' },
-    'CC_1GNM': { id: 'CC5', name: 'Mr. John', role: 'CLASS_COORDINATOR', assignedClass: '1yr GNM', email: 'cc5@dayoff.edu' },
-    'CC_2GNM': { id: 'CC6', name: 'Ms. Emily', role: 'CLASS_COORDINATOR', assignedClass: '2yr GNM', email: 'cc6@dayoff.edu' },
-    'CC_3GNM': { id: 'CC7', name: 'Mr. Mike', role: 'CLASS_COORDINATOR', assignedClass: '3yr GNM', email: 'cc7@dayoff.edu' },
-    'CC_4GNM': { id: 'CC8', name: 'Mrs. Linda', role: 'CLASS_COORDINATOR', assignedClass: '4yr GNM', email: 'cc8@dayoff.edu' },
-    // Normal Faculty
     'FAC_1': { id: 'F1', name: 'Prof. Wilson', role: 'NORMAL_FACULTY', email: 'wilson@dayoff.edu' },
-    'FAC_2': { id: 'F2', name: 'Dr. Smith', role: 'NORMAL_FACULTY', email: 'smith@dayoff.edu' }
   };
 
   const handleLogin = (role: 'STUDENT' | 'FACULTY', idInput?: string) => {
@@ -141,16 +132,6 @@ const App: React.FC = () => {
                 <button onClick={() => handleLogin('FACULTY', (document.getElementById('facId') as HTMLInputElement).value)} className="bg-teal-600 text-white px-4 py-3 rounded-xl font-bold hover:bg-teal-700 transition-colors">Go</button>
               </div>
             </div>
-
-            <div className="bg-amber-50 p-5 rounded-3xl border border-amber-100">
-              <p className="text-[10px] font-black text-amber-600 uppercase mb-2">Demo Credentials:</p>
-              <ul className="text-[10px] text-amber-800 font-bold space-y-1 opacity-80">
-                <li>• PR_ADMIN - Principal (View All)</li>
-                <li>• COC_ALL - Course Coord (All Students)</li>
-                <li>• CC_1BSC...CC_4GNM - Class Coords (Specific Class)</li>
-                <li>• FAC_1, FAC_2 - Normal Faculty (Personal Only)</li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
@@ -166,6 +147,7 @@ const App: React.FC = () => {
       )}
       {currentView === 'apply' && <LeaveForm user={user} onSubmit={handleApplyLeave} isSubmitting={isSubmitting} />}
       {currentView === 'review' && user.role !== 'STUDENT' && <AdminDashboard user={user} applications={leaves} onUpdateStatus={handleUpdateStatus} />}
+      {currentView === 'game' && <GameZone />}
     </Layout>
   );
 };

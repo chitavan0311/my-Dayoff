@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { User } from '../types';
-import { LogOut, LayoutDashboard, FileText, User as UserIcon, ShieldCheck, PenSquare, History } from 'lucide-react';
+import { LogOut, LayoutDashboard, FileText, ShieldCheck, PenSquare, Gamepad2 } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,7 +20,6 @@ const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, onNavigate, c
     return 'Faculty';
   };
 
-  // All faculty roles (CC, CoC, Principal, and Normal Faculty) can access history/review
   const isFaculty = user.role !== 'STUDENT';
 
   return (
@@ -69,6 +68,16 @@ const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, onNavigate, c
                 <span>{user.role === 'NORMAL_FACULTY' ? 'Application History' : 'Review Requests'}</span>
               </button>
             )}
+
+            <button
+              onClick={() => onNavigate('game')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                currentView === 'game' ? 'bg-indigo-50 text-indigo-700 font-bold' : 'text-slate-500 hover:bg-slate-50'
+              }`}
+            >
+              <Gamepad2 size={20} />
+              <span>Game Zone</span>
+            </button>
           </nav>
         </div>
 
